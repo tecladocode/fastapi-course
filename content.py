@@ -7,6 +7,7 @@ import markdown
 from bs4 import BeautifulSoup
 from typing import Dict, List, AnyStr, Union
 
+
 def get_grouped_sections(root: str = "docs") -> Dict[AnyStr, List]:
     sections = get_all_sections_with_content(root)
     grouped_sections = {}
@@ -20,9 +21,14 @@ def get_grouped_sections(root: str = "docs") -> Dict[AnyStr, List]:
             grouped_sections.setdefault("default", []).append(section)
     return grouped_sections
 
+
 def get_all_sections_with_content(root: str = "docs"):
     root_path = pathlib.Path(root)
-    section_folders = [folder.name for folder in root_path.iterdir() if folder.is_dir() and folder.name[0] in string.digits]
+    section_folders = [
+        folder.name
+        for folder in root_path.iterdir()
+        if folder.is_dir() and folder.name[0] in string.digits
+    ]
     sections = sorted(section_folders, key=lambda e: int(str(e).split("_")[0]))
     for section in sections:
         section = root_path / section
@@ -31,7 +37,9 @@ def get_all_sections_with_content(root: str = "docs"):
             continue
         lectures = get_section_lectures(section)
         lecture_contents = [get_lecture_content(lecture) for lecture in lectures]
-        non_hidden_lectures = [lecture for lecture in lecture_contents if not lecture.get("hidden")]
+        non_hidden_lectures = [
+            lecture for lecture in lecture_contents if not lecture.get("hidden")
+        ]
         yield {"index": section_index, "lectures": non_hidden_lectures}
 
 
@@ -41,7 +49,9 @@ def get_section_lectures(folder: Union[pathlib.Path, AnyStr]) -> List[str]:
     return sorted([folder for folder in lecture_path.glob("*/README.md")])
 
 
-def get_lecture_content(lecture_path: pathlib.Path, root_path: Union[pathlib.Path, AnyStr] = "docs") -> Dict[str, str]:
+def get_lecture_content(
+    lecture_path: pathlib.Path, root_path: Union[pathlib.Path, AnyStr] = "docs"
+) -> Dict[str, str]:
     """Return a dictionary of lecture content.
     Return a dictionary with the following keys:
     - title, the h1 from the markdown file
@@ -69,8 +79,10 @@ def get_lecture_content(lecture_path: pathlib.Path, root_path: Union[pathlib.Pat
     }
 
 
-def get_grouped_build_sections(root: str = "build") -> Dict[str, list]:
-    sections = build_and_get_yaml_contents(root)
+def get_grouped_build_sections(
+    root: str = "docs", build_path: str = "build"
+) -> Dict[str, list]:
+    sections = build_and_get_yaml_contents(root, build_path)
     grouped_sections = {}
     for section in sections:
         group = section["index"]["group"]
@@ -87,7 +99,7 @@ def build_and_get_yaml_contents(root: str = "docs", build_path: str = "build"):
     # Delete contents of the build directory
     shutil.rmtree(build_path, ignore_errors=True)
     pathlib.Path(build_path).mkdir(parents=True, exist_ok=True)
-    files = glob.glob(f"{root}/*", recursive=True)
+    files = pathlib.Path(root).glob("*")
     # Copy all files (not folders) to the build directory
     for file in files:
         if pathlib.Path(file).is_file():
@@ -100,22 +112,42 @@ def build_and_get_yaml_contents(root: str = "docs", build_path: str = "build"):
         pathlib.Path(build_path, section_name).mkdir(parents=True, exist_ok=True)
         # Create a directory in the build folder matching the section_name
         # Copy the README.md file from the original section to the new directory
-        shutil.copyfile(section["index"]["full_path"], pathlib.Path(build_path, section_name, "README.md"))
+        shutil.copyfile(
+            section["index"]["full_path"],
+            pathlib.Path(build_path, section_name, "README.md"),
+        )
         # Copy the lecture folders to the new directory
-        section["lectures"] = list(copy_lectures_to_build_path(section, section_name, build_path=build_path))
+        section["lectures"] = list(
+            copy_lectures_to_build_path(section, section_name, build_path=build_path)
+        )
         # Update the section index to point to the new path
-        section["index"]["full_path"] = pathlib.Path(build_path, section_name, "README.md").absolute()
-        section["index"]["path"] = pathlib.Path(build_path, section_name, "README.md").relative_to(build_path)
+        section["index"]["full_path"] = pathlib.Path(
+            build_path, section_name, "README.md"
+        ).absolute()
+        section["index"]["path"] = pathlib.Path(
+            build_path, section_name, "README.md"
+        ).relative_to(build_path)
         yield section
 
 
-def copy_lectures_to_build_path(section: Dict, new_section_name: str, build_path: str = "build"):
+def copy_lectures_to_build_path(
+    section: Dict, new_section_name: str, build_path: str = "build"
+):
     for lecture in section["lectures"]:
         lecture_name = "_".join(lecture["full_path"].parent.name.split("_")[1:])
-        pathlib.Path(build_path, new_section_name, lecture_name).mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(lecture["full_path"], pathlib.Path(build_path, new_section_name, lecture_name, "README.md"))
-        lecture["full_path"] = pathlib.Path(build_path, new_section_name, lecture_name, "README.md").absolute()
-        lecture["path"] = pathlib.Path(build_path, new_section_name, lecture_name, "README.md").relative_to(build_path)
+        pathlib.Path(build_path, new_section_name, lecture_name).mkdir(
+            parents=True, exist_ok=True
+        )
+        shutil.copyfile(
+            lecture["full_path"],
+            pathlib.Path(build_path, new_section_name, lecture_name, "README.md"),
+        )
+        lecture["full_path"] = pathlib.Path(
+            build_path, new_section_name, lecture_name, "README.md"
+        ).absolute()
+        lecture["path"] = pathlib.Path(
+            build_path, new_section_name, lecture_name, "README.md"
+        ).relative_to(build_path)
         yield lecture
 
 

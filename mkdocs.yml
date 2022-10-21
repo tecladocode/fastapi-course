@@ -18,5 +18,4 @@ nav:
   #            if not lecture["hidden"]:
   #                cog.outl(f"    - {lecture['title']}: {lecture['path']}")
   #]]]
-
   #[[[end]]]
