@@ -6,7 +6,7 @@
 
 <div align="center">
 
-![GitHub last commit](https://img.shields.io/github/last-commit/tecladocode/fastapi-for-beginners) ![Python 3.10](https://img.shields.io/badge/python-3.10-yellow) [![Discord](https://img.shields.io/discord/614395983807250433)](https://discord.gg/78Nvd3p) [![Twitter Follow](https://img.shields.io/twitter/follow/jslvtr?style=social) ](https://twitter.com/jslvtr)
+![GitHub last commit](https://img.shields.io/github/last-commit/tecladocode/fastapi-course) ![Python 3.10](https://img.shields.io/badge/python-3.10-yellow) [![Discord](https://img.shields.io/discord/614395983807250433)](https://discord.gg/78Nvd3p) [![Twitter Follow](https://img.shields.io/twitter/follow/jslvtr?style=social) ](https://twitter.com/jslvtr)
 
 </div>
 
