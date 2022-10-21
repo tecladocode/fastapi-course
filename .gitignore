@@ -1,0 +1,57 @@
+rebrand-subs/
+subs/
+promo/
+cpc-questions/
+captions/
+page_*.jpeg
+exercises/
+Subtitles
+documents/
+.env/
+logs.txt
+data.db
+*.key
+*.indd
+*.png
+.DS_Store
+.idea/
+.vscode/
+__pycache__/
+*.scriv
+*.pyc
+*.screenflow
+*.mp4
+*.mov
+*.cmproj
+exports/
+videos/
+*.numbers
+*.sketch
+*.pptx
+*.vtt
+*.zip
+**/old
+.venv
+.python-version
+
+# Dependencies
+/node_modules
+
+# Production
+/build
+/site
+
+# Generated files
+.docusaurus
+.cache-loader
+
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

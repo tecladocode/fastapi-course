@@ -1,0 +1,22 @@
+site_name: FastAPI for Beginners
+docs_dir: build
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.tabs
+nav:
+  #[[[cog
+  #from content import get_grouped_build_sections
+  #groups = get_grouped_build_sections()
+  #for group in groups:
+  #    cog.outl(f"- {group}:")
+  #    for section in groups[group]:
+  #        cog.outl(f"  - {section['index']['title']}:")
+  #        cog.outl(f"    - Section Introduction: {section['index']['path']}")
+  #        for lecture in section['lectures']:
+  #            if not lecture["hidden"]:
+  #                cog.outl(f"    - {lecture['title']}: {lecture['path']}")
+  #]]]
+
+  #[[[end]]]
